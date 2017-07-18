@@ -34,7 +34,11 @@ class ResponseParser
                 $station = $arr[0];
                 if ($isHourly) {
                     $date = \DateTime::createFromFormat('Ymd', $arr[1], new \DateTimeZone('Europe/Amsterdam'));
-                    $date->setTime($arr[2], 0, 0);
+                    $hour = $arr[2];
+                    if($hour == 24){
+                      $hour = 00; // Using 24 will skip to 00:00 the next day.
+                    }
+                    $date->setTime($hour, 0, 0);
                     $ret['datetime'] = $date->format(\DateTime::ISO8601);
                 } else {
                     $date = \DateTime::createFromFormat('Ymd', $arr[1], new \DateTimeZone('Europe/Amsterdam'));
